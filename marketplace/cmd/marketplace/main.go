@@ -39,7 +39,7 @@ func printFindById(id string) {
 }
 
 func printFindFiveAds() {
-	ads := repository.FindFiveAds()
+	ads := repository.FindAllAds()
 	log.Println("Size of the array:", len(ads))
 	log.Println(ads)
 }

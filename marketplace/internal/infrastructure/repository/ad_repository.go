@@ -25,6 +25,11 @@ func FindAdById(id string) (Ad, error) {
 	return Ad{}, errors.New("not found Ad")
 }
 
-func FindFiveAds() []Ad {
-	return ads[:5]
+func FindAllAds() (adResponse []Ad) {
+	if len(ads) < 5 {
+		adResponse = ads
+	} else {
+		adResponse = ads[:5]
+	}
+	return
 }
