@@ -26,5 +26,5 @@ func FindAdById(id string) (Ad, error) {
 }
 
 func FindFiveAds() []Ad {
-	return ads[0:5]
+	return ads[:5]
 }
