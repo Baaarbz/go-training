@@ -1,14 +1,14 @@
 package repository
 
 import (
-	"barbz.dev/marketplace/internal/pkg/domain"
+	. "barbz.dev/marketplace/internal/pkg/domain"
 	"errors"
 	"github.com/google/uuid"
 )
 
-var ads = make([]domain.Ad, 0)
+var ads = make([]Ad, 0)
 
-func Save(ad domain.Ad) domain.Ad {
+func SaveAd(ad Ad) Ad {
 	var id, _ = uuid.NewUUID()
 	ad.SetID(id.String())
 
@@ -16,11 +16,15 @@ func Save(ad domain.Ad) domain.Ad {
 	return ad
 }
 
-func FindById(id string) (domain.Ad, error) {
+func FindAdById(id string) (Ad, error) {
 	for _, ad := range ads {
 		if ad.GetId() == id {
 			return ad, nil
 		}
 	}
-	return domain.Ad{}, errors.New("not found Ad")
+	return Ad{}, errors.New("not found Ad")
+}
+
+func FindFiveAds() []Ad {
+	return ads[0:5]
 }
