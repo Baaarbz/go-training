@@ -1,7 +1,7 @@
 package entity
 
 type Video struct {
-	title       string `json:"title"`
-	description string `json:"description"`
-	url         string `json:"url"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	URL         string `json:"url"`
 }

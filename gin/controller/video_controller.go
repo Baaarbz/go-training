@@ -4,6 +4,7 @@ import (
 	"barbz.dev/gin/entity"
 	"barbz.dev/gin/service"
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 type VideoController interface {
@@ -27,7 +28,12 @@ func (c *controller) FindAll() []entity.Video {
 
 func (c *controller) Save(ctx *gin.Context) entity.Video {
 	var video entity.Video
-	ctx.BindJSON(&video)
+	err := ctx.BindJSON(&video)
+
+	if err != nil {
+		log.Fatal(err)
+		return entity.Video{}
+	}
 	c.service.Save(video)
 
 	return video
