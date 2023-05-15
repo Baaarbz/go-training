@@ -2,21 +2,6 @@ package main
 
 import "fmt"
 
-// create a number interface with a type set
-type number interface {
-	~int | ~float64
-	grow()
-}
-
-// update sumNumber function to use a number interface with a type set
-func sumNumber[T number](a, b T) T {
-	return a + b
-}
-
-type specialNumber int
-
-func (s specialNumber) grow() {}
-
 // equal returns true if a and b are equal.
 func equal[T comparable](a, b T) bool {
 	return a == b
