@@ -80,6 +80,26 @@
 # Packages
 > Variables and functions defined outside any function, can be accessed in all other files within the same package
 
+# Generics
+> Defining the type we infer what type of generic we are going to use, the compiler will generate multiple versions of the generic function.
+>```go
+> func main() {
+>    fmt.Println(sum(1, 2))
+>    fmt.Println(sum[float64](1.3, 2.2))
+> }
+>
+> func sum[T int | float64](a, b T) T {
+>     return a + b
+> }
+>```
+
+> The "~" will let you use also underlying variables like `type price int`
+> ```go
+> func sum[T int | float64](a, b T) T {
+>     return a + b
+> }
+> ```
+
 # Documentation
 [Formatting expressions](https://pkg.go.dev/fmt#hdr-Printing)<br/>
 [Strconv](https://pkg.go.dev/strconv)<br/>
