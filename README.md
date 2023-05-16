@@ -77,6 +77,19 @@
 >mapInitialized := make(map[string]string)
 >```
 
+> Get capacity<br>
+> The cap built-in function returns the capacity of v, according to its type:<br>
+>- Array: the number of elements in v (same as len(v)).
+>- Pointer to array: the number of elements in *v (same as len(v)).
+>- Slice: the maximum length the slice can reach when resliced;
+>if v is nil, cap(v) is zero.
+>- Channel: the channel buffer capacity, in units of elements;
+>if v is nil, cap(v) is zero.
+>```go
+>slice := make([]string, 1)
+>cap(slice) // Output: 1
+>```
+
 # Packages
 > Variables and functions defined outside any function, can be accessed in all other files within the same package
 
