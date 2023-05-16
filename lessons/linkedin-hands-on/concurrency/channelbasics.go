@@ -16,7 +16,13 @@ func main() {
 	ch := make(chan int)
 	// invoke the sum function as a goroutine with channel
 	go sumInt(nums, ch)
-
 	result := <-ch
 	fmt.Printf("Result: %v\n", result)
+
+	// Buffered channels specifying size (if size is not specified then it will be an unbuffered channel)
+	ch2 := make(chan string, 2)
+	ch2 <- "James"
+	ch2 <- "Tom"
+	fmt.Println(<-ch2)
+	fmt.Println(<-ch2)
 }
