@@ -26,6 +26,10 @@ func (ad *Ad) GetId() AdId {
 	return ad.id
 }
 
-func (ad *Ad) SetID(id AdId) {
+func (ad *Ad) SetId(id AdId) {
 	ad.id = id
+}
+
+func (ad *Ad) GetDate() Date {
+	return ad.date
 }
