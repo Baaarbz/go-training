@@ -1,7 +1,9 @@
 package ad
 
-type Repository interface {
+import "barbz.dev/marketplace/pkg/valueobject"
+
+type AdRepository interface {
 	SaveAd(ad Ad) Ad
-	FindAdById(id string) (Ad, error)
+	FindAdById(id valueobject.AdId) (Ad, error)
 	FindAllAds() (adResponse []Ad)
 }

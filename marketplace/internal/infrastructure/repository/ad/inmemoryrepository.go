@@ -12,7 +12,7 @@ var ads = make([]Ad, 0)
 func SaveAd(ad Ad) Ad {
 	var id, _ = uuid.NewUUID()
 	var adId, _ = NewId(id.String())
-	ad.SetID(adId)
+	ad.SetId(adId)
 
 	ads = append(ads, ad)
 	return ad
