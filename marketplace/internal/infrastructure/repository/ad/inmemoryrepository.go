@@ -1,7 +1,8 @@
-package repository
+package ad
 
 import (
-	. "barbz.dev/marketplace/internal/pkg/domain"
+	. "barbz.dev/marketplace/internal/pkg/domain/ad"
+	. "barbz.dev/marketplace/pkg/valueobject"
 	"errors"
 	"github.com/google/uuid"
 )
@@ -10,13 +11,14 @@ var ads = make([]Ad, 0)
 
 func SaveAd(ad Ad) Ad {
 	var id, _ = uuid.NewUUID()
-	ad.SetID(id.String())
+	var adId, _ = NewId(id.String())
+	ad.SetID(adId)
 
 	ads = append(ads, ad)
 	return ad
 }
 
-func FindAdById(id string) (Ad, error) {
+func FindAdById(id AdId) (Ad, error) {
 	for _, ad := range ads {
 		if ad.GetId() == id {
 			return ad, nil
