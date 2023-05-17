@@ -7,19 +7,27 @@ import (
 	"github.com/google/uuid"
 )
 
-var ads = make([]Ad, 0)
+type InMemoryRepository struct {
+	ads []Ad
+}
 
-func SaveAd(ad Ad) Ad {
+func NewInMemoryRepository() *InMemoryRepository {
+	return &InMemoryRepository{
+		ads: make([]Ad, 0),
+	}
+}
+
+func (repository *InMemoryRepository) SaveAd(ad Ad) Ad {
 	var id, _ = uuid.NewUUID()
 	var adId, _ = NewId(id.String())
 	ad.SetId(adId)
 
-	ads = append(ads, ad)
+	repository.ads = append(repository.ads, ad)
 	return ad
 }
 
-func FindAdById(id AdId) (Ad, error) {
-	for _, ad := range ads {
+func (repository *InMemoryRepository) FindAdById(id AdId) (Ad, error) {
+	for _, ad := range repository.ads {
 		if ad.GetId() == id {
 			return ad, nil
 		}
@@ -27,11 +35,11 @@ func FindAdById(id AdId) (Ad, error) {
 	return Ad{}, errors.New("not found Ad")
 }
 
-func FindAllAds() (adResponse []Ad) {
-	if len(ads) < 5 {
-		adResponse = ads
+func (repository *InMemoryRepository) FindAllAds() (adResponse []Ad) {
+	if len(repository.ads) < 5 {
+		adResponse = repository.ads
 	} else {
-		adResponse = ads[:5]
+		adResponse = repository.ads[:5]
 	}
 	return
 }
