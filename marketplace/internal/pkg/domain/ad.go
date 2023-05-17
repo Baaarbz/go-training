@@ -6,22 +6,22 @@ import (
 
 type Ad struct {
 	id          string
-	title       string
-	description string
-	price       float32
+	Title       string
+	Description string
+	Price       float32
 	date        time.Time
 }
 
 func NewAd(title, description string, price float32) Ad {
 	return Ad{
-		title:       title,
-		description: description,
-		price:       price,
+		Title:       title,
+		Description: description,
+		Price:       price,
 		date:        time.Now(),
 	}
 }
 
-func (ad Ad) GetId() string {
+func (ad *Ad) GetId() string {
 	return ad.id
 }
 
