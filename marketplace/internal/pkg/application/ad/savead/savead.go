@@ -20,9 +20,9 @@ type SaveAdResponse struct {
 }
 
 type SaveAdRequest struct {
-	Title       string  `json:"title"`
-	Description string  `json:"description"`
-	Price       float32 `json:"price"`
+	Title       string  `json:"title" required:"true"`
+	Description string  `json:"description" required:"true"`
+	Price       float32 `json:"price" required:"true"`
 }
 
 func Execute(request SaveAdRequest) (SaveAdResponse, error) {
