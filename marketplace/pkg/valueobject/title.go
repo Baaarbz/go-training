@@ -21,7 +21,7 @@ func (title Title) String() string {
 }
 
 func validateAdTitle(title string) error {
-	if titleLen := len(title); titleLen <= 5 {
+	if titleLen := len(title); titleLen <= 3 {
 		return ErrTitleBadFormat
 	}
 
