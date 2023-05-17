@@ -22,7 +22,7 @@ func (service FindAllAds) Execute() []GetAdsResponse {
 }
 
 func mapToResponse(ads []Ad) []GetAdsResponse {
-	adsResponse := make([]GetAdsResponse, len(ads))
+	adsResponse := make([]GetAdsResponse, 0)
 	for _, ad := range ads {
 		adsResponse = append(adsResponse, GetAdsResponse{Id: ad.GetId().String()})
 	}

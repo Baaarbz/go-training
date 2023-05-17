@@ -25,11 +25,12 @@ type SaveAdRequest struct {
 	Price       float32 `json:"price" required:"true"`
 }
 
-func Execute(request SaveAdRequest) (SaveAdResponse, error) {
+func (service SaveAd) Execute(request SaveAdRequest) (SaveAdResponse, error) {
 	if title, description, price, err := getFieldsAds(request); err != nil {
 		return SaveAdResponse{}, err
 	} else {
 		ad := NewAd(title, description, price)
+		ad = service.ads.SaveAd(ad)
 		return SaveAdResponse{Id: ad.GetId().String()}, nil
 	}
 }
