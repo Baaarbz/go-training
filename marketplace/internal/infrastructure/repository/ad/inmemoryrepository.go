@@ -17,13 +17,13 @@ func NewInMemoryRepository() *InMemoryRepository {
 	}
 }
 
-func (repository *InMemoryRepository) SaveAd(ad Ad) Ad {
+func (repository *InMemoryRepository) SaveAd(ad Ad) (Ad, error) {
 	var id, _ = uuid.NewUUID()
 	var adId, _ = NewId(id.String())
 	ad.SetId(adId)
 
 	repository.ads = append(repository.ads, ad)
-	return ad
+	return ad, nil
 }
 
 func (repository *InMemoryRepository) FindAdById(id AdId) (Ad, error) {
@@ -35,7 +35,7 @@ func (repository *InMemoryRepository) FindAdById(id AdId) (Ad, error) {
 	return Ad{}, errors.New("not found Ad")
 }
 
-func (repository *InMemoryRepository) FindAllAds() (adResponse []Ad) {
+func (repository *InMemoryRepository) FindAllAds() (adResponse []Ad, err error) {
 	if len(repository.ads) < 5 {
 		adResponse = repository.ads
 	} else {

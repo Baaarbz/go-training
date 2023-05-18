@@ -65,7 +65,8 @@ func TestInMemoryRepository_FindAllAds(t *testing.T) {
 			repository := &InMemoryRepository{
 				ads: tt.fields.ads,
 			}
-			gotAdResponse := repository.FindAllAds()
+			gotAdResponse, err := repository.FindAllAds()
+			assert.Nil(t, err)
 			assert.Equal(t, tt.wantAdResponse, gotAdResponse)
 		})
 	}
@@ -75,10 +76,11 @@ func TestInMemoryRepository_SaveAd(t *testing.T) {
 	anAd := NewAd("Test Save", "Test save Ad description mock", 10)
 	repository := &InMemoryRepository{ads: []Ad{}}
 
-	expectedAd := repository.SaveAd(anAd)
+	expectedAd, err := repository.SaveAd(anAd)
 
 	gotAd, _ := repository.FindAdById(expectedAd.GetId())
 	assert.Equal(t, expectedAd, gotAd)
+	assert.Nil(t, err)
 }
 
 func generateSliceMockAds() (mockAds []Ad) {
