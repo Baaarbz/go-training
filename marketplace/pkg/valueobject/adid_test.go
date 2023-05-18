@@ -1,18 +1,20 @@
 package valueobject
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
 func TestNewId(t *testing.T) {
-	id, err := NewId("574cc928-f4bd-11ed-ad0e-8a6a68a798d6")
+	const givenId = "574cc928-f4bd-11ed-ad0e-8a6a68a798d6"
+	gotId, err := NewId(givenId)
 
-	if err != nil {
-		t.Errorf("id %v has wrong format: %v", id, err)
-	}
+	assert.Nil(t, err)
+	assert.Equal(t, givenId, gotId.String())
 }
 func TestNewIdWrongFormat(t *testing.T) {
 	id, err := NewId("wrong-id-format")
 
-	if err == nil {
-		t.Errorf("id %v has invalid format (should throw error)", id)
-	}
+	assert.Error(t, err, "id: bad format")
+	assert.Empty(t, id)
 }
