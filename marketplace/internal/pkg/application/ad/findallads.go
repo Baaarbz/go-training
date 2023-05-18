@@ -1,4 +1,4 @@
-package findallads
+package ad
 
 import . "barbz.dev/marketplace/internal/pkg/domain/ad"
 
@@ -18,10 +18,10 @@ type GetAdsResponse struct {
 
 func (service FindAllAds) Execute() []GetAdsResponse {
 	ads := service.ads.FindAllAds()
-	return mapToResponse(ads)
+	return service.mapToResponse(ads)
 }
 
-func mapToResponse(ads []Ad) []GetAdsResponse {
+func (FindAllAds) mapToResponse(ads []Ad) []GetAdsResponse {
 	adsResponse := make([]GetAdsResponse, 0)
 	for _, ad := range ads {
 		adsResponse = append(adsResponse, GetAdsResponse{Id: ad.GetId().String()})
