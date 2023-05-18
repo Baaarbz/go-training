@@ -20,10 +20,11 @@ func TestSaveAd_Execute_Success(t *testing.T) {
 	}
 	savedAd := NewAd(Title(requestAd.Title), Description(requestAd.Description), Price(requestAd.Price))
 	savedAd.SetId("test-id")
-	ads.EXPECT().SaveAd(mock.AnythingOfType("Ad")).Return(savedAd)
+	ads.EXPECT().SaveAd(mock.AnythingOfType("Ad")).Return(savedAd, nil)
 
-	gotAd, _ := service.Execute(requestAd)
+	gotAd, err := service.Execute(requestAd)
 
+	assert.Nil(t, err)
 	assert.Equal(t, SaveAdResponse{savedAd.GetId().String()}, gotAd)
 }
 func TestSaveAd_Execute_FailValidation(t *testing.T) {
