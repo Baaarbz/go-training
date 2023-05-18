@@ -16,9 +16,9 @@ type GetAdsResponse struct {
 	Id string
 }
 
-func (service FindAllAds) Execute() []GetAdsResponse {
-	ads := service.ads.FindAllAds()
-	return service.mapToResponse(ads)
+func (service FindAllAds) Execute() ([]GetAdsResponse, error) {
+	ads, err := service.ads.FindAllAds()
+	return service.mapToResponse(ads), err
 }
 
 func (FindAllAds) mapToResponse(ads []Ad) []GetAdsResponse {

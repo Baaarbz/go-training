@@ -30,8 +30,8 @@ func (service SaveAd) Execute(request SaveAdRequest) (SaveAdResponse, error) {
 		return SaveAdResponse{}, err
 	} else {
 		ad := NewAd(title, description, price)
-		ad = service.ads.SaveAd(ad)
-		return SaveAdResponse{Id: ad.GetId().String()}, nil
+		ad, err = service.ads.SaveAd(ad)
+		return SaveAdResponse{Id: ad.GetId().String()}, err
 	}
 }
 
