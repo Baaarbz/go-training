@@ -26,7 +26,7 @@ type SaveAdRequest struct {
 }
 
 func (service SaveAd) Execute(request SaveAdRequest) (SaveAdResponse, error) {
-	if title, description, price, err := getFieldsAds(request); err != nil {
+	if title, description, price, err := service.getFieldsAds(request); err != nil {
 		return SaveAdResponse{}, err
 	} else {
 		ad := NewAd(title, description, price)
@@ -35,7 +35,7 @@ func (service SaveAd) Execute(request SaveAdRequest) (SaveAdResponse, error) {
 	}
 }
 
-func getFieldsAds(request SaveAdRequest) (title Title, description Description, price Price, err error) {
+func (SaveAd) getFieldsAds(request SaveAdRequest) (title Title, description Description, price Price, err error) {
 	title, err = NewTitle(request.Title)
 	description, err = NewDescription(request.Description)
 	price, err = NewPrice(request.Price)
