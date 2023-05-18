@@ -1,4 +1,4 @@
-package finadbyid
+package ad
 
 import (
 	. "barbz.dev/marketplace/internal/pkg/domain/ad"
@@ -26,11 +26,11 @@ type GetAdByIdResponse struct {
 func (service FindAdById) Execute(id string) (response GetAdByIdResponse, err error) {
 	adId, err := valueobject.NewId(id)
 	ad, err := service.ads.FindAdById(adId)
-	response = mapToResponse(ad)
+	response = service.mapToResponse(ad)
 	return
 }
 
-func mapToResponse(ad Ad) GetAdByIdResponse {
+func (FindAdById) mapToResponse(ad Ad) GetAdByIdResponse {
 	return GetAdByIdResponse{
 		Id:          ad.GetId().String(),
 		Title:       ad.Title.String(),

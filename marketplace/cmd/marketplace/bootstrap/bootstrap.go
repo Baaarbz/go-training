@@ -2,9 +2,7 @@ package bootstrap
 
 import (
 	. "barbz.dev/marketplace/internal/infrastructure/repository/ad"
-	. "barbz.dev/marketplace/internal/pkg/application/ad/finadbyid"
-	. "barbz.dev/marketplace/internal/pkg/application/ad/findallads"
-	. "barbz.dev/marketplace/internal/pkg/application/ad/savead"
+	. "barbz.dev/marketplace/internal/pkg/application/ad"
 	"log"
 )
 

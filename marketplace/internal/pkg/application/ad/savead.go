@@ -1,4 +1,4 @@
-package savead
+package ad
 
 import (
 	. "barbz.dev/marketplace/internal/pkg/domain/ad"
@@ -20,9 +20,9 @@ type SaveAdResponse struct {
 }
 
 type SaveAdRequest struct {
-	Title       string  `json:"title" required:"true"`
-	Description string  `json:"description" required:"true"`
-	Price       float32 `json:"price" required:"true"`
+	Title       string
+	Description string
+	Price       float32
 }
 
 func (service SaveAd) Execute(request SaveAdRequest) (SaveAdResponse, error) {
