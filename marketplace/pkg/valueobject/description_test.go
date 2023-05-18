@@ -1,6 +1,9 @@
 package valueobject
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
 func TestNewDescription(t *testing.T) {
 	type args struct {
@@ -20,12 +23,13 @@ func TestNewDescription(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			gotAdDescription, err := NewDescription(tt.args.value)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("NewDescription() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if gotAdDescription != tt.wantAdDescription {
-				t.Errorf("NewDescription() gotAdDescription = %v, want %v", gotAdDescription, tt.wantAdDescription)
+
+			assert.Equal(t, tt.wantAdDescription, gotAdDescription)
+			switch tt.wantErr {
+			case true:
+				assert.NotNil(t, err)
+			case false:
+				assert.Nil(t, err)
 			}
 		})
 	}
