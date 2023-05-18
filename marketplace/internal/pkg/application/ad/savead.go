@@ -37,7 +37,13 @@ func (service SaveAd) Execute(request SaveAdRequest) (SaveAdResponse, error) {
 
 func (SaveAd) getFieldsAds(request SaveAdRequest) (title Title, description Description, price Price, err error) {
 	title, err = NewTitle(request.Title)
+	if err != nil {
+		return "", "", 0, err
+	}
 	description, err = NewDescription(request.Description)
+	if err != nil {
+		return "", "", 0, err
+	}
 	price, err = NewPrice(request.Price)
 	return
 }
