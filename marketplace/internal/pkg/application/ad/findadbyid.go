@@ -25,6 +25,9 @@ type GetAdByIdResponse struct {
 
 func (service FindAdById) Execute(id string) (response GetAdByIdResponse, err error) {
 	adId, err := valueobject.NewId(id)
+	if err != nil {
+		return
+	}
 	ad, err := service.ads.FindAdById(adId)
 	response = service.mapToResponse(ad)
 	return
