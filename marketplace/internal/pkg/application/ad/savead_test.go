@@ -4,6 +4,7 @@ import (
 	. "barbz.dev/marketplace/internal/pkg/domain/ad"
 	"barbz.dev/marketplace/internal/pkg/domain/ad/mocks"
 	. "barbz.dev/marketplace/pkg/valueobject"
+	"context"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"testing"
@@ -20,9 +21,9 @@ func TestSaveAd_Execute_Success(t *testing.T) {
 	}
 	savedAd := NewAd(Title(requestAd.Title), Description(requestAd.Description), Price(requestAd.Price))
 	savedAd.SetId("test-id")
-	ads.EXPECT().SaveAd(mock.AnythingOfType("Ad")).Return(savedAd, nil)
+	ads.EXPECT().SaveAd(mock.AnythingOfType("Context"), mock.AnythingOfType("Ad")).Return(savedAd, nil)
 
-	gotAd, err := service.Execute(requestAd)
+	gotAd, err := service.Execute(context.Background(), requestAd)
 
 	assert.Nil(t, err)
 	assert.Equal(t, SaveAdResponse{savedAd.GetId().String()}, gotAd)
@@ -45,8 +46,8 @@ func TestSaveAd_Execute_FailValidation(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			service := SaveAd{ads: ads}
-			gotSavedAd, err := service.Execute(tt.args.request)
+			service := saveAd{ads: ads}
+			gotSavedAd, err := service.Execute(context.Background(), tt.args.request)
 			assert.Equal(t, SaveAdResponse{}, gotSavedAd)
 			assert.Error(t, err)
 		})

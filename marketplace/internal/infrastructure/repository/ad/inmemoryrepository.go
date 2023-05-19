@@ -3,7 +3,7 @@ package ad
 import (
 	. "barbz.dev/marketplace/internal/pkg/domain/ad"
 	. "barbz.dev/marketplace/pkg/valueobject"
-	"errors"
+	"context"
 	"github.com/google/uuid"
 )
 
@@ -17,7 +17,7 @@ func NewInMemoryRepository() *InMemoryRepository {
 	}
 }
 
-func (repository *InMemoryRepository) SaveAd(ad Ad) (Ad, error) {
+func (repository *InMemoryRepository) SaveAd(_ context.Context, ad Ad) (Ad, error) {
 	var id, _ = uuid.NewUUID()
 	var adId, _ = NewId(id.String())
 	ad.SetId(adId)
@@ -26,16 +26,16 @@ func (repository *InMemoryRepository) SaveAd(ad Ad) (Ad, error) {
 	return ad, nil
 }
 
-func (repository *InMemoryRepository) FindAdById(id AdId) (Ad, error) {
+func (repository *InMemoryRepository) FindAdById(_ context.Context, id AdId) (Ad, error) {
 	for _, ad := range repository.ads {
 		if ad.GetId() == id {
 			return ad, nil
 		}
 	}
-	return Ad{}, errors.New("not found Ad")
+	return Ad{}, nil
 }
 
-func (repository *InMemoryRepository) FindAllAds() (adResponse []Ad, err error) {
+func (repository *InMemoryRepository) FindAllAds(_ context.Context) (adResponse []Ad, err error) {
 	if len(repository.ads) < 5 {
 		adResponse = repository.ads
 	} else {
