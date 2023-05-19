@@ -1,7 +1,12 @@
 package main
 
-import "barbz.dev/marketplace/cmd/marketplace/bootstrap"
+import (
+	"barbz.dev/marketplace/cmd/marketplace/bootstrap"
+	"log"
+)
 
 func main() {
-	bootstrap.Run()
+	if err := bootstrap.Run(); err != nil {
+		log.Fatal(err)
+	}
 }
