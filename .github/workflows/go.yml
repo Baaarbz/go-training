@@ -20,12 +20,11 @@ jobs:
       uses: actions/setup-go@v3
       with:
         go-version: 1.19
-
-    - name: Change marketplace DIR
-      run: cd marketplace/
-      
+        
     - name: Build
+      working-directory: ./marketplace
       run: go build -v ./...
 
     - name: Test
+      working-directory: ./marketplace
       run: go test -v ./...
