@@ -3,7 +3,10 @@
 package mocks
 
 import (
+	context "context"
+
 	ad "barbz.dev/marketplace/internal/pkg/domain/ad"
+
 	mock "github.com/stretchr/testify/mock"
 
 	valueobject "barbz.dev/marketplace/pkg/valueobject"
@@ -22,23 +25,23 @@ func (_m *AdRepository) EXPECT() *AdRepository_Expecter {
 	return &AdRepository_Expecter{mock: &_m.Mock}
 }
 
-// FindAdById provides a mock function with given fields: id
-func (_m *AdRepository) FindAdById(id valueobject.AdId) (ad.Ad, error) {
-	ret := _m.Called(id)
+// FindAdById provides a mock function with given fields: ctx, id
+func (_m *AdRepository) FindAdById(ctx context.Context, id valueobject.AdId) (ad.Ad, error) {
+	ret := _m.Called(ctx, id)
 
 	var r0 ad.Ad
 	var r1 error
-	if rf, ok := ret.Get(0).(func(valueobject.AdId) (ad.Ad, error)); ok {
-		return rf(id)
+	if rf, ok := ret.Get(0).(func(context.Context, valueobject.AdId) (ad.Ad, error)); ok {
+		return rf(ctx, id)
 	}
-	if rf, ok := ret.Get(0).(func(valueobject.AdId) ad.Ad); ok {
-		r0 = rf(id)
+	if rf, ok := ret.Get(0).(func(context.Context, valueobject.AdId) ad.Ad); ok {
+		r0 = rf(ctx, id)
 	} else {
 		r0 = ret.Get(0).(ad.Ad)
 	}
 
-	if rf, ok := ret.Get(1).(func(valueobject.AdId) error); ok {
-		r1 = rf(id)
+	if rf, ok := ret.Get(1).(func(context.Context, valueobject.AdId) error); ok {
+		r1 = rf(ctx, id)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -52,14 +55,15 @@ type AdRepository_FindAdById_Call struct {
 }
 
 // FindAdById is a helper method to define mock.On call
+//   - ctx context.Context
 //   - id valueobject.AdId
-func (_e *AdRepository_Expecter) FindAdById(id interface{}) *AdRepository_FindAdById_Call {
-	return &AdRepository_FindAdById_Call{Call: _e.mock.On("FindAdById", id)}
+func (_e *AdRepository_Expecter) FindAdById(ctx interface{}, id interface{}) *AdRepository_FindAdById_Call {
+	return &AdRepository_FindAdById_Call{Call: _e.mock.On("FindAdById", ctx, id)}
 }
 
-func (_c *AdRepository_FindAdById_Call) Run(run func(id valueobject.AdId)) *AdRepository_FindAdById_Call {
+func (_c *AdRepository_FindAdById_Call) Run(run func(ctx context.Context, id valueobject.AdId)) *AdRepository_FindAdById_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(valueobject.AdId))
+		run(args[0].(context.Context), args[1].(valueobject.AdId))
 	})
 	return _c
 }
@@ -69,30 +73,30 @@ func (_c *AdRepository_FindAdById_Call) Return(_a0 ad.Ad, _a1 error) *AdReposito
 	return _c
 }
 
-func (_c *AdRepository_FindAdById_Call) RunAndReturn(run func(valueobject.AdId) (ad.Ad, error)) *AdRepository_FindAdById_Call {
+func (_c *AdRepository_FindAdById_Call) RunAndReturn(run func(context.Context, valueobject.AdId) (ad.Ad, error)) *AdRepository_FindAdById_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
-// FindAllAds provides a mock function with given fields:
-func (_m *AdRepository) FindAllAds() ([]ad.Ad, error) {
-	ret := _m.Called()
+// FindAllAds provides a mock function with given fields: ctx
+func (_m *AdRepository) FindAllAds(ctx context.Context) ([]ad.Ad, error) {
+	ret := _m.Called(ctx)
 
 	var r0 []ad.Ad
 	var r1 error
-	if rf, ok := ret.Get(0).(func() ([]ad.Ad, error)); ok {
-		return rf()
+	if rf, ok := ret.Get(0).(func(context.Context) ([]ad.Ad, error)); ok {
+		return rf(ctx)
 	}
-	if rf, ok := ret.Get(0).(func() []ad.Ad); ok {
-		r0 = rf()
+	if rf, ok := ret.Get(0).(func(context.Context) []ad.Ad); ok {
+		r0 = rf(ctx)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]ad.Ad)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func() error); ok {
-		r1 = rf()
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = rf(ctx)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -106,13 +110,14 @@ type AdRepository_FindAllAds_Call struct {
 }
 
 // FindAllAds is a helper method to define mock.On call
-func (_e *AdRepository_Expecter) FindAllAds() *AdRepository_FindAllAds_Call {
-	return &AdRepository_FindAllAds_Call{Call: _e.mock.On("FindAllAds")}
+//   - ctx context.Context
+func (_e *AdRepository_Expecter) FindAllAds(ctx interface{}) *AdRepository_FindAllAds_Call {
+	return &AdRepository_FindAllAds_Call{Call: _e.mock.On("FindAllAds", ctx)}
 }
 
-func (_c *AdRepository_FindAllAds_Call) Run(run func()) *AdRepository_FindAllAds_Call {
+func (_c *AdRepository_FindAllAds_Call) Run(run func(ctx context.Context)) *AdRepository_FindAllAds_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run()
+		run(args[0].(context.Context))
 	})
 	return _c
 }
@@ -122,28 +127,28 @@ func (_c *AdRepository_FindAllAds_Call) Return(adResponse []ad.Ad, err error) *A
 	return _c
 }
 
-func (_c *AdRepository_FindAllAds_Call) RunAndReturn(run func() ([]ad.Ad, error)) *AdRepository_FindAllAds_Call {
+func (_c *AdRepository_FindAllAds_Call) RunAndReturn(run func(context.Context) ([]ad.Ad, error)) *AdRepository_FindAllAds_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
-// SaveAd provides a mock function with given fields: _a0
-func (_m *AdRepository) SaveAd(_a0 ad.Ad) (ad.Ad, error) {
-	ret := _m.Called(_a0)
+// SaveAd provides a mock function with given fields: ctx, _a1
+func (_m *AdRepository) SaveAd(ctx context.Context, _a1 ad.Ad) (ad.Ad, error) {
+	ret := _m.Called(ctx, _a1)
 
 	var r0 ad.Ad
 	var r1 error
-	if rf, ok := ret.Get(0).(func(ad.Ad) (ad.Ad, error)); ok {
-		return rf(_a0)
+	if rf, ok := ret.Get(0).(func(context.Context, ad.Ad) (ad.Ad, error)); ok {
+		return rf(ctx, _a1)
 	}
-	if rf, ok := ret.Get(0).(func(ad.Ad) ad.Ad); ok {
-		r0 = rf(_a0)
+	if rf, ok := ret.Get(0).(func(context.Context, ad.Ad) ad.Ad); ok {
+		r0 = rf(ctx, _a1)
 	} else {
 		r0 = ret.Get(0).(ad.Ad)
 	}
 
-	if rf, ok := ret.Get(1).(func(ad.Ad) error); ok {
-		r1 = rf(_a0)
+	if rf, ok := ret.Get(1).(func(context.Context, ad.Ad) error); ok {
+		r1 = rf(ctx, _a1)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -157,14 +162,15 @@ type AdRepository_SaveAd_Call struct {
 }
 
 // SaveAd is a helper method to define mock.On call
-//   - _a0 ad.Ad
-func (_e *AdRepository_Expecter) SaveAd(_a0 interface{}) *AdRepository_SaveAd_Call {
-	return &AdRepository_SaveAd_Call{Call: _e.mock.On("SaveAd", _a0)}
+//   - ctx context.Context
+//   - _a1 ad.Ad
+func (_e *AdRepository_Expecter) SaveAd(ctx interface{}, _a1 interface{}) *AdRepository_SaveAd_Call {
+	return &AdRepository_SaveAd_Call{Call: _e.mock.On("SaveAd", ctx, _a1)}
 }
 
-func (_c *AdRepository_SaveAd_Call) Run(run func(_a0 ad.Ad)) *AdRepository_SaveAd_Call {
+func (_c *AdRepository_SaveAd_Call) Run(run func(ctx context.Context, _a1 ad.Ad)) *AdRepository_SaveAd_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(ad.Ad))
+		run(args[0].(context.Context), args[1].(ad.Ad))
 	})
 	return _c
 }
@@ -174,7 +180,7 @@ func (_c *AdRepository_SaveAd_Call) Return(_a0 ad.Ad, _a1 error) *AdRepository_S
 	return _c
 }
 
-func (_c *AdRepository_SaveAd_Call) RunAndReturn(run func(ad.Ad) (ad.Ad, error)) *AdRepository_SaveAd_Call {
+func (_c *AdRepository_SaveAd_Call) RunAndReturn(run func(context.Context, ad.Ad) (ad.Ad, error)) *AdRepository_SaveAd_Call {
 	_c.Call.Return(run)
 	return _c
 }

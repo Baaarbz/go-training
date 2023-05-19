@@ -3,6 +3,7 @@ package ad
 import (
 	. "barbz.dev/marketplace/internal/pkg/domain/ad"
 	. "barbz.dev/marketplace/pkg/valueobject"
+	"context"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -24,8 +25,8 @@ func TestInMemoryRepository_FindAdById(t *testing.T) {
 		wantAd  Ad
 		wantErr bool
 	}{
-		{"empty slice should error", fields{ads: []Ad{}}, args{id: anId}, Ad{}, true},
-		{"not find ad by id should error", fields{ads: generateSliceMockAds()}, args{id: anId}, Ad{}, true},
+		{"empty slice should empty ad", fields{ads: []Ad{}}, args{id: anId}, Ad{}, false},
+		{"not find ad by id should empty ad", fields{ads: generateSliceMockAds()}, args{id: anId}, Ad{}, false},
 		{"slice with values should find ad", fields{ads: append(generateSliceMockAds(), anAd)}, args{id: anId}, anAd, false},
 	}
 	for _, tt := range tests {
@@ -33,7 +34,7 @@ func TestInMemoryRepository_FindAdById(t *testing.T) {
 			repository := &InMemoryRepository{
 				ads: tt.fields.ads,
 			}
-			gotAd, err := repository.FindAdById(tt.args.id)
+			gotAd, err := repository.FindAdById(context.Background(), tt.args.id)
 
 			assert.Equal(t, tt.wantAd, gotAd)
 			switch tt.wantErr {
@@ -65,7 +66,7 @@ func TestInMemoryRepository_FindAllAds(t *testing.T) {
 			repository := &InMemoryRepository{
 				ads: tt.fields.ads,
 			}
-			gotAdResponse, err := repository.FindAllAds()
+			gotAdResponse, err := repository.FindAllAds(context.Background())
 			assert.Nil(t, err)
 			assert.Equal(t, tt.wantAdResponse, gotAdResponse)
 		})
@@ -76,9 +77,9 @@ func TestInMemoryRepository_SaveAd(t *testing.T) {
 	anAd := NewAd("Test Save", "Test save Ad description mock", 10)
 	repository := &InMemoryRepository{ads: []Ad{}}
 
-	expectedAd, err := repository.SaveAd(anAd)
+	expectedAd, err := repository.SaveAd(context.Background(), anAd)
 
-	gotAd, _ := repository.FindAdById(expectedAd.GetId())
+	gotAd, _ := repository.FindAdById(context.Background(), expectedAd.GetId())
 	assert.Equal(t, expectedAd, gotAd)
 	assert.Nil(t, err)
 }

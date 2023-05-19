@@ -1,16 +1,21 @@
+//go:generate mockery --name=FindAdById --filename mock_findadbyid.go
 package ad
 
 import (
 	. "barbz.dev/marketplace/internal/pkg/domain/ad"
 	"barbz.dev/marketplace/pkg/valueobject"
+	"context"
 )
 
-type FindAdById struct {
+type FindAdById interface {
+	Execute(ctx context.Context, id string) (response GetAdByIdResponse, err error)
+}
+type findAdById struct {
 	ads AdRepository
 }
 
 func NewFindAdById(ads AdRepository) FindAdById {
-	return FindAdById{
+	return findAdById{
 		ads: ads,
 	}
 }
@@ -23,17 +28,17 @@ type GetAdByIdResponse struct {
 	Date        string
 }
 
-func (service FindAdById) Execute(id string) (response GetAdByIdResponse, err error) {
+func (service findAdById) Execute(ctx context.Context, id string) (response GetAdByIdResponse, err error) {
 	adId, err := valueobject.NewId(id)
 	if err != nil {
 		return
 	}
-	ad, err := service.ads.FindAdById(adId)
+	ad, err := service.ads.FindAdById(ctx, adId)
 	response = service.mapToResponse(ad)
 	return
 }
 
-func (FindAdById) mapToResponse(ad Ad) GetAdByIdResponse {
+func (findAdById) mapToResponse(ad Ad) GetAdByIdResponse {
 	return GetAdByIdResponse{
 		Id:          ad.GetId().String(),
 		Title:       ad.Title.String(),

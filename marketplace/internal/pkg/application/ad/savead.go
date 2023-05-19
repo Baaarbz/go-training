@@ -1,16 +1,22 @@
+//go:generate mockery --name=SaveAd --filename mock_savead.go
 package ad
 
 import (
 	. "barbz.dev/marketplace/internal/pkg/domain/ad"
 	. "barbz.dev/marketplace/pkg/valueobject"
+	"context"
 )
 
-type SaveAd struct {
+type SaveAd interface {
+	Execute(ctx context.Context, request SaveAdRequest) (SaveAdResponse, error)
+}
+
+type saveAd struct {
 	ads AdRepository
 }
 
-func NewSaveAd(ads AdRepository) SaveAd {
-	return SaveAd{
+func NewSaveAd(ads AdRepository) saveAd {
+	return saveAd{
 		ads: ads,
 	}
 }
@@ -25,17 +31,17 @@ type SaveAdRequest struct {
 	Price       float32
 }
 
-func (service SaveAd) Execute(request SaveAdRequest) (SaveAdResponse, error) {
+func (service saveAd) Execute(ctx context.Context, request SaveAdRequest) (SaveAdResponse, error) {
 	if title, description, price, err := service.getFieldsAds(request); err != nil {
 		return SaveAdResponse{}, err
 	} else {
 		ad := NewAd(title, description, price)
-		ad, err = service.ads.SaveAd(ad)
+		ad, err = service.ads.SaveAd(ctx, ad)
 		return SaveAdResponse{Id: ad.GetId().String()}, err
 	}
 }
 
-func (SaveAd) getFieldsAds(request SaveAdRequest) (title Title, description Description, price Price, err error) {
+func (saveAd) getFieldsAds(request SaveAdRequest) (title Title, description Description, price Price, err error) {
 	title, err = NewTitle(request.Title)
 	if err != nil {
 		return "", "", 0, err
