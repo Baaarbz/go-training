@@ -27,6 +27,7 @@ func TestSaveAd_Execute_Success(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, SaveAdResponse{savedAd.GetId().String()}, gotAd)
 }
+
 func TestSaveAd_Execute_FailValidation(t *testing.T) {
 	ads := mocks.NewAdRepository(t)
 	type args struct {
