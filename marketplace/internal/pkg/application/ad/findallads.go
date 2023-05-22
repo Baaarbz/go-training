@@ -6,6 +6,8 @@ import (
 	"context"
 )
 
+const FindAllAdsBeanName = "ad.FindAllAds"
+
 type FindAllAds interface {
 	Execute(ctx context.Context) ([]GetAdsResponse, error)
 }
@@ -14,7 +16,7 @@ type findAllAds struct {
 	ads AdRepository
 }
 
-func NewFindAllAds(ads AdRepository) findAllAds {
+func NewFindAllAds(ads AdRepository) FindAllAds {
 	return findAllAds{
 		ads: ads,
 	}

@@ -30,10 +30,12 @@ func Run() error {
 }
 
 func loadServices() (mapDependencies map[string]interface{}) {
+	mapDependencies = make(map[string]interface{})
+
 	saveAd, findAllAds, findAdById := initAdsDependencies()
-	mapDependencies["ad.SaveAd"] = saveAd
-	mapDependencies["ad.FindAllAds"] = findAllAds
-	mapDependencies["ad.FindAdById"] = findAdById
+	mapDependencies[SaveAdBeanName] = saveAd
+	mapDependencies[FindAllAdsBeanName] = findAllAds
+	mapDependencies[FindAdByIdBeanName] = findAdById
 
 	return
 }
