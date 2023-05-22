@@ -7,8 +7,6 @@ import (
 	"context"
 )
 
-const SaveAdBeanName = "ad.SaveAd"
-
 type SaveAd interface {
 	Execute(ctx context.Context, request SaveAdRequest) (SaveAdResponse, error)
 }

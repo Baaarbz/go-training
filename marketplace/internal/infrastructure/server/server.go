@@ -1,11 +1,11 @@
 package server
 
 import (
+	"barbz.dev/marketplace/internal/infrastructure/server/configuration"
 	adHandler "barbz.dev/marketplace/internal/infrastructure/server/handler/ad"
 	"barbz.dev/marketplace/internal/infrastructure/server/handler/health"
 	"barbz.dev/marketplace/internal/infrastructure/server/middleware/logging"
 	"barbz.dev/marketplace/internal/infrastructure/server/middleware/recovery"
-	adService "barbz.dev/marketplace/internal/pkg/application/ad"
 	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -21,10 +21,10 @@ type Server struct {
 	httpAddr        string
 	shutdownTimeout time.Duration
 	// Dependencies
-	services map[string]interface{}
+	adDependencies *configuration.AdDependencies
 }
 
-func New(ctx context.Context, host string, port uint, shutdownTimeout time.Duration, services map[string]interface{}) (context.Context, Server) {
+func New(ctx context.Context, host string, port uint, shutdownTimeout time.Duration, adDependencies *configuration.AdDependencies) (context.Context, Server) {
 	engine := gin.New()
 	// Register middlewares
 	engine.Use(recovery.Middleware(), logging.Middleware())
@@ -33,7 +33,7 @@ func New(ctx context.Context, host string, port uint, shutdownTimeout time.Durat
 		engine:          engine,
 		httpAddr:        fmt.Sprintf("%s:%d", host, port),
 		shutdownTimeout: shutdownTimeout,
-		services:        services,
+		adDependencies:  adDependencies,
 	}
 
 	srv.registerRoutes()
@@ -63,9 +63,13 @@ func (s *Server) Run(ctx context.Context) error {
 func (s *Server) registerRoutes() {
 	s.engine.GET("/health", health.APIStatus())
 
-	s.engine.POST("/v1/ads", adHandler.SaveAd(s.services[adService.SaveAdBeanName].(adService.SaveAd)))
-	s.engine.GET("/v1/ads", adHandler.FindAllAds(s.services[adService.FindAllAdsBeanName].(adService.FindAllAds)))
-	s.engine.GET("/v1/ads/:id", adHandler.FindAdById(s.services[adService.FindAdByIdBeanName].(adService.FindAdById)))
+	s.engine.Group("api/v1/ads")
+	{
+		s.engine.POST("", adHandler.SaveAd(s.adDependencies.SaveAdService))
+		s.engine.GET("", adHandler.FindAllAds(s.adDependencies.FindAllAdsService))
+		s.engine.GET(":id", adHandler.FindAdById(s.adDependencies.FindAdByIdService))
+	}
+
 }
 
 func serverContext(ctx context.Context) context.Context {

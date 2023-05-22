@@ -11,7 +11,7 @@ type InMemoryRepository struct {
 	ads []Ad
 }
 
-func NewInMemoryRepository() *InMemoryRepository {
+func NewInMemoryRepository() AdRepository {
 	return &InMemoryRepository{
 		ads: make([]Ad, 0),
 	}
