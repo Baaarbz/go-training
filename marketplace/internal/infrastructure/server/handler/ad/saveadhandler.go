@@ -35,7 +35,6 @@ func (h SaveAdHandler) SaveAd() gin.HandlerFunc {
 			switch {
 			case errors.Is(err, ErrAdIdBadFormat) ||
 				errors.Is(err, ErrTitleBadFormat) ||
-				errors.Is(err, ErrDateBadFormat) ||
 				errors.Is(err, ErrDescriptionBadFormat) ||
 				errors.Is(err, ErrPriceBadFormat):
 				ctx.String(http.StatusBadRequest, err.Error())
