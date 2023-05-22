@@ -1,11 +1,8 @@
 package valueobject
 
 import (
-	"errors"
 	"time"
 )
-
-var ErrDateBadFormat = errors.New("date: bad format")
 
 type Date string
 
