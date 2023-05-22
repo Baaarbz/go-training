@@ -7,6 +7,8 @@ import (
 	"context"
 )
 
+const FindAdByIdBeanName = "ad.FindAdById"
+
 type FindAdById interface {
 	Execute(ctx context.Context, id string) (response GetAdByIdResponse, err error)
 }

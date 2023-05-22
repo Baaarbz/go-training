@@ -63,9 +63,9 @@ func (s *Server) Run(ctx context.Context) error {
 func (s *Server) registerRoutes() {
 	s.engine.GET("/health", health.APIStatus())
 
-	s.engine.POST("/v1/ads", adHandler.SaveAd(s.services["ad.SaveAd"].(adService.SaveAd)))
-	s.engine.GET("/v1/ads", adHandler.FindAllAds(s.services["ad.FindAllAds"].(adService.FindAllAds)))
-	s.engine.GET("/v1/ads/:id", adHandler.FindAdById(s.services["ad.FindAdById"].(adService.FindAdById)))
+	s.engine.POST("/v1/ads", adHandler.SaveAd(s.services[adService.SaveAdBeanName].(adService.SaveAd)))
+	s.engine.GET("/v1/ads", adHandler.FindAllAds(s.services[adService.FindAllAdsBeanName].(adService.FindAllAds)))
+	s.engine.GET("/v1/ads/:id", adHandler.FindAdById(s.services[adService.FindAdByIdBeanName].(adService.FindAdById)))
 }
 
 func serverContext(ctx context.Context) context.Context {
