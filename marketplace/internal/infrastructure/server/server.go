@@ -2,7 +2,6 @@ package server
 
 import (
 	"barbz.dev/marketplace/internal/infrastructure/server/configuration"
-	adHandler "barbz.dev/marketplace/internal/infrastructure/server/handler/ad"
 	"barbz.dev/marketplace/internal/infrastructure/server/handler/health"
 	"barbz.dev/marketplace/internal/infrastructure/server/middleware/logging"
 	"barbz.dev/marketplace/internal/infrastructure/server/middleware/recovery"
@@ -21,10 +20,10 @@ type Server struct {
 	httpAddr        string
 	shutdownTimeout time.Duration
 	// Dependencies
-	adDependencies *configuration.AdDependencies
+	adConfiguration *configuration.AdConfiguration
 }
 
-func New(ctx context.Context, host string, port uint, shutdownTimeout time.Duration, adDependencies *configuration.AdDependencies) (context.Context, Server) {
+func New(ctx context.Context, host string, port uint, shutdownTimeout time.Duration, adConfiguration *configuration.AdConfiguration) (context.Context, Server) {
 	engine := gin.New()
 	// Register middlewares
 	engine.Use(recovery.Middleware(), logging.Middleware())
@@ -33,7 +32,7 @@ func New(ctx context.Context, host string, port uint, shutdownTimeout time.Durat
 		engine:          engine,
 		httpAddr:        fmt.Sprintf("%s:%d", host, port),
 		shutdownTimeout: shutdownTimeout,
-		adDependencies:  adDependencies,
+		adConfiguration: adConfiguration,
 	}
 
 	srv.registerRoutes()
@@ -65,9 +64,9 @@ func (s *Server) registerRoutes() {
 
 	adsGroup := s.engine.Group("api/v1/ads")
 	{
-		adsGroup.POST("", adHandler.SaveAd(s.adDependencies.SaveAdService))
-		adsGroup.GET("", adHandler.FindAllAds(s.adDependencies.FindAllAdsService))
-		adsGroup.GET(":id", adHandler.FindAdById(s.adDependencies.FindAdByIdService))
+		adsGroup.POST("", s.adConfiguration.SaveAdHandler.SaveAd())
+		adsGroup.GET("", s.adConfiguration.GetAdHandler.FindAllAds())
+		adsGroup.GET(":id", s.adConfiguration.GetAdHandler.FindAdById())
 	}
 }
 

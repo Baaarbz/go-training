@@ -23,11 +23,11 @@ func Run() error {
 		return err
 	}
 
-	adDependencies, err := configuration.BuildAdDependencies()
+	adConfiguration, err := configuration.BuildAdConfiguration()
 	if err != nil {
 		return err
 	}
 
-	ctx, srv := server.New(context.Background(), cfg.Host, cfg.Port, cfg.ShutdownTimeout, adDependencies)
+	ctx, srv := server.New(context.Background(), cfg.Host, cfg.Port, cfg.ShutdownTimeout, adConfiguration)
 	return srv.Run(ctx)
 }

@@ -8,11 +8,21 @@ import (
 	"net/http"
 )
 
+type SaveAdHandler struct {
+	saveAd ad.SaveAd
+}
+
+func NewSaveAdHandler(saveAd ad.SaveAd) SaveAdHandler {
+	return SaveAdHandler{
+		saveAd: saveAd,
+	}
+}
+
 type JSONSaveAdResponse struct {
 	Id string `json:"id"`
 }
 
-func SaveAd(service ad.SaveAd) gin.HandlerFunc {
+func (h SaveAdHandler) SaveAd() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req ad.SaveAdRequest
 		if err := ctx.BindJSON(&req); err != nil {
@@ -20,7 +30,7 @@ func SaveAd(service ad.SaveAd) gin.HandlerFunc {
 			return
 		}
 
-		if savedAd, err := service.Execute(ctx, req); err != nil {
+		if savedAd, err := h.saveAd.Execute(ctx, req); err != nil {
 			switch {
 			case errors.Is(err, ErrAdIdBadFormat) ||
 				errors.Is(err, ErrTitleBadFormat) ||
@@ -34,12 +44,12 @@ func SaveAd(service ad.SaveAd) gin.HandlerFunc {
 				return
 			}
 		} else {
-			ctx.JSON(http.StatusCreated, mapSaveAdToJsonResponse(savedAd))
+			ctx.JSON(http.StatusCreated, h.mapSaveAdToJsonResponse(savedAd))
 		}
 	}
 }
 
-func mapSaveAdToJsonResponse(response ad.SaveAdResponse) JSONSaveAdResponse {
+func (SaveAdHandler) mapSaveAdToJsonResponse(response ad.SaveAdResponse) JSONSaveAdResponse {
 	return JSONSaveAdResponse{
 		Id: response.Id,
 	}

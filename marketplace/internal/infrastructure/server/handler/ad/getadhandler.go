@@ -6,13 +6,25 @@ import (
 	"net/http"
 )
 
+type GetAdHandler struct {
+	findAllAds ad.FindAllAds
+	findAdById ad.FindAdById
+}
+
+func NewGetAdHandler(findAllAds ad.FindAllAds, findAdById ad.FindAdById) GetAdHandler {
+	return GetAdHandler{
+		findAdById: findAdById,
+		findAllAds: findAllAds,
+	}
+}
+
 type JSONFindAllAdsResponse struct {
 	Id string `json:"id"`
 }
 
-func FindAllAds(service ad.FindAllAds) gin.HandlerFunc {
+func (h GetAdHandler) FindAllAds() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		ads, err := service.Execute(ctx)
+		ads, err := h.findAllAds.Execute(ctx)
 
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, err.Error())
@@ -24,13 +36,13 @@ func FindAllAds(service ad.FindAllAds) gin.HandlerFunc {
 			ctx.Status(http.StatusNoContent)
 			return
 		default:
-			ctx.JSON(http.StatusOK, mapFindAllAdsToJSONResponse(ads))
+			ctx.JSON(http.StatusOK, h.mapFindAllAdsToJSONResponse(ads))
 			return
 		}
 	}
 }
 
-func mapFindAllAdsToJSONResponse(allAdsResponse []ad.GetAdsResponse) []JSONFindAllAdsResponse {
+func (GetAdHandler) mapFindAllAdsToJSONResponse(allAdsResponse []ad.GetAdsResponse) []JSONFindAllAdsResponse {
 	jsonResponse := make([]JSONFindAllAdsResponse, 0)
 	for _, response := range allAdsResponse {
 		jsonResponse = append(jsonResponse, JSONFindAllAdsResponse{Id: response.Id})
@@ -46,9 +58,9 @@ type JSONFindAdByIdResponse struct {
 	Date        string  `json:"postedAt"`
 }
 
-func FindAdById(service ad.FindAdById) gin.HandlerFunc {
+func (h GetAdHandler) FindAdById() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		adResponse, err := service.Execute(ctx, ctx.Param("id"))
+		adResponse, err := h.findAdById.Execute(ctx, ctx.Param("id"))
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, err.Error())
 			return
@@ -59,13 +71,13 @@ func FindAdById(service ad.FindAdById) gin.HandlerFunc {
 			ctx.Status(http.StatusNotFound)
 			return
 		default:
-			ctx.JSON(http.StatusOK, mapFindAdByIdToJSONResponse(adResponse))
+			ctx.JSON(http.StatusOK, h.mapFindAdByIdToJSONResponse(adResponse))
 			return
 		}
 	}
 }
 
-func mapFindAdByIdToJSONResponse(adByIdResponse ad.GetAdByIdResponse) JSONFindAdByIdResponse {
+func (GetAdHandler) mapFindAdByIdToJSONResponse(adByIdResponse ad.GetAdByIdResponse) JSONFindAdByIdResponse {
 	return JSONFindAdByIdResponse{
 		Id:          adByIdResponse.Id,
 		Title:       adByIdResponse.Title,
