@@ -21,7 +21,7 @@ func TestSaveAd_Execute_Success(t *testing.T) {
 	}
 	savedAd := NewAd(Title(requestAd.Title), Description(requestAd.Description), Price(requestAd.Price))
 	savedAd.SetId("test-id")
-	ads.EXPECT().SaveAd(mock.AnythingOfType("Context"), mock.AnythingOfType("Ad")).Return(savedAd, nil)
+	ads.EXPECT().SaveAd(mock.AnythingOfType("*context.emptyCtx"), mock.AnythingOfType("Ad")).Return(savedAd, nil)
 
 	gotAd, err := service.Execute(context.Background(), requestAd)
 
