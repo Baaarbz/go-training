@@ -63,13 +63,12 @@ func (s *Server) Run(ctx context.Context) error {
 func (s *Server) registerRoutes() {
 	s.engine.GET("/health", health.APIStatus())
 
-	s.engine.Group("api/v1/ads")
+	adsGroup := s.engine.Group("api/v1/ads")
 	{
-		s.engine.POST("", adHandler.SaveAd(s.adDependencies.SaveAdService))
-		s.engine.GET("", adHandler.FindAllAds(s.adDependencies.FindAllAdsService))
-		s.engine.GET(":id", adHandler.FindAdById(s.adDependencies.FindAdByIdService))
+		adsGroup.POST("", adHandler.SaveAd(s.adDependencies.SaveAdService))
+		adsGroup.GET("", adHandler.FindAllAds(s.adDependencies.FindAllAdsService))
+		adsGroup.GET(":id", adHandler.FindAdById(s.adDependencies.FindAdByIdService))
 	}
-
 }
 
 func serverContext(ctx context.Context) context.Context {
