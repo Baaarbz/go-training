@@ -1,6 +1,7 @@
 package ad
 
 import (
+	"barbz.dev/marketplace/internal/infrastructure/server/configuration"
 	"barbz.dev/marketplace/internal/pkg/application/ad"
 	. "barbz.dev/marketplace/pkg/valueobject"
 	"errors"
@@ -12,9 +13,9 @@ type SaveAdHandler struct {
 	saveAd ad.SaveAd
 }
 
-func NewSaveAdHandler(saveAd ad.SaveAd) SaveAdHandler {
-	return SaveAdHandler{
-		saveAd: saveAd,
+func NewSaveAdHandler(dependencies *configuration.AdConfiguration) *SaveAdHandler {
+	return &SaveAdHandler{
+		saveAd: dependencies.SaveAdService,
 	}
 }
 

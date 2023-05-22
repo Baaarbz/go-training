@@ -2,7 +2,6 @@ package configuration
 
 import (
 	repository "barbz.dev/marketplace/internal/infrastructure/repository/ad"
-	handler "barbz.dev/marketplace/internal/infrastructure/server/handler/ad"
 	service "barbz.dev/marketplace/internal/pkg/application/ad"
 	domain "barbz.dev/marketplace/internal/pkg/domain/ad"
 	"go.uber.org/dig"
@@ -13,8 +12,6 @@ type AdConfiguration struct {
 	SaveAdService     service.SaveAd
 	FindAllAdsService service.FindAllAds
 	FindAdByIdService service.FindAdById
-	GetAdHandler      handler.GetAdHandler
-	SaveAdHandler     handler.SaveAdHandler
 }
 
 func BuildAdConfiguration() (*AdConfiguration, error) {
@@ -29,15 +26,11 @@ func BuildAdConfiguration() (*AdConfiguration, error) {
 		saveAdService service.SaveAd,
 		findAllAdsService service.FindAllAds,
 		findAdByIdService service.FindAdById,
-		getAdHandler handler.GetAdHandler,
-		saveAdHandler handler.SaveAdHandler,
 	) {
 		dependencies.Ads = ads
 		dependencies.SaveAdService = saveAdService
 		dependencies.FindAdByIdService = findAdByIdService
 		dependencies.FindAllAdsService = findAllAdsService
-		dependencies.GetAdHandler = getAdHandler
-		dependencies.SaveAdHandler = saveAdHandler
 	}); err != nil {
 		return nil, err
 	}
@@ -60,14 +53,6 @@ func buildContainer() (*dig.Container, error) {
 	}
 
 	if err := container.Provide(service.NewFindAdById); err != nil {
-		return nil, err
-	}
-
-	if err := container.Provide(handler.NewGetAdHandler); err != nil {
-		return nil, err
-	}
-
-	if err := container.Provide(handler.NewSaveAdHandler); err != nil {
 		return nil, err
 	}
 

@@ -1,6 +1,7 @@
 package ad
 
 import (
+	"barbz.dev/marketplace/internal/infrastructure/server/configuration"
 	"barbz.dev/marketplace/internal/pkg/application/ad"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -11,10 +12,10 @@ type GetAdHandler struct {
 	findAdById ad.FindAdById
 }
 
-func NewGetAdHandler(findAllAds ad.FindAllAds, findAdById ad.FindAdById) GetAdHandler {
-	return GetAdHandler{
-		findAdById: findAdById,
-		findAllAds: findAllAds,
+func NewGetAdHandler(dependencies *configuration.AdConfiguration) *GetAdHandler {
+	return &GetAdHandler{
+		findAdById: dependencies.FindAdByIdService,
+		findAllAds: dependencies.FindAllAdsService,
 	}
 }
 
