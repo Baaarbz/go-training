@@ -1,9 +1,8 @@
 package bootstrap
 
 import (
-	. "barbz.dev/marketplace/internal/infrastructure/repository/ad"
 	"barbz.dev/marketplace/internal/infrastructure/server"
-	. "barbz.dev/marketplace/internal/pkg/application/ad"
+	"barbz.dev/marketplace/internal/infrastructure/server/configuration"
 	"context"
 	"github.com/kelseyhightower/envconfig"
 	"time"
@@ -24,26 +23,11 @@ func Run() error {
 		return err
 	}
 
-	dependencies := loadServices()
-	ctx, srv := server.New(context.Background(), cfg.Host, cfg.Port, cfg.ShutdownTimeout, dependencies)
+	adDependencies, err := configuration.BuildAdDependencies()
+	if err != nil {
+		return err
+	}
+
+	ctx, srv := server.New(context.Background(), cfg.Host, cfg.Port, cfg.ShutdownTimeout, adDependencies)
 	return srv.Run(ctx)
-}
-
-func loadServices() (mapDependencies map[string]interface{}) {
-	mapDependencies = make(map[string]interface{})
-
-	saveAd, findAllAds, findAdById := initAdsDependencies()
-	mapDependencies[SaveAdBeanName] = saveAd
-	mapDependencies[FindAllAdsBeanName] = findAllAds
-	mapDependencies[FindAdByIdBeanName] = findAdById
-
-	return
-}
-
-func initAdsDependencies() (save SaveAd, findAll FindAllAds, findById FindAdById) {
-	ads := NewInMemoryRepository()
-	save = NewSaveAd(ads)
-	findAll = NewFindAllAds(ads)
-	findById = NewFindAdById(ads)
-	return
 }

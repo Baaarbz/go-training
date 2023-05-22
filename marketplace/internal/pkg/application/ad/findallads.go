@@ -6,8 +6,6 @@ import (
 	"context"
 )
 
-const FindAllAdsBeanName = "ad.FindAllAds"
-
 type FindAllAds interface {
 	Execute(ctx context.Context) ([]GetAdsResponse, error)
 }
