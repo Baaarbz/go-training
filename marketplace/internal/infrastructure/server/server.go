@@ -2,6 +2,7 @@ package server
 
 import (
 	"barbz.dev/marketplace/internal/infrastructure/server/configuration"
+	"barbz.dev/marketplace/internal/infrastructure/server/handler/ad"
 	"barbz.dev/marketplace/internal/infrastructure/server/handler/health"
 	"barbz.dev/marketplace/internal/infrastructure/server/middleware/logging"
 	"barbz.dev/marketplace/internal/infrastructure/server/middleware/recovery"
@@ -62,11 +63,13 @@ func (s *Server) Run(ctx context.Context) error {
 func (s *Server) registerRoutes() {
 	s.engine.GET("/health", health.APIStatus())
 
+	saveAdHandler := ad.NewSaveAdHandler(s.adConfiguration)
+	getAdHandler := ad.NewGetAdHandler(s.adConfiguration)
 	adsGroup := s.engine.Group("api/v1/ads")
 	{
-		adsGroup.POST("", s.adConfiguration.SaveAdHandler.SaveAd())
-		adsGroup.GET("", s.adConfiguration.GetAdHandler.FindAllAds())
-		adsGroup.GET(":id", s.adConfiguration.GetAdHandler.FindAdById())
+		adsGroup.POST("", saveAdHandler.SaveAd())
+		adsGroup.GET("", getAdHandler.FindAllAds())
+		adsGroup.GET(":id", getAdHandler.FindAdById())
 	}
 }
 
