@@ -25,6 +25,14 @@ jobs:
       working-directory: ./marketplace
       run: go build -v ./...
 
-    - name: Test
+    - name: Unit test
       working-directory: ./marketplace
-      run: go test -v ./...
+      run: make unit-test
+
+    - name: Acceptance test
+      working-directory: ./marketplace
+      run: make acceptance
+
+    - name: Contract test
+      working-directory: ./marketplace
+      run: make contract
