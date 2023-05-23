@@ -1,6 +1,7 @@
 package ad
 
 import (
+	adHandler "barbz.dev/marketplace/internal/infrastructure/server/handler/ad"
 	"barbz.dev/marketplace/internal/pkg/application/ad"
 	"bytes"
 	"encoding/json"
@@ -14,7 +15,7 @@ import (
 func TestSaveAd(t *testing.T) {
 	serviceExpectedResponse := ad.SaveAdDtoResponse{Id: "test-id"}
 	expectedSaveAdJsonResponse := `{"id": "test-id"}`
-	body, _ := json.Marshal(ad.SaveAdDtoRequest{
+	body, _ := json.Marshal(adHandler.JSONSaveAdRequest{
 		Title:       "iPhone",
 		Description: "Description og the iPhone ad test",
 		Price:       100,
