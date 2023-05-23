@@ -29,6 +29,13 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+
     - name: Unit test
       working-directory: ./marketplace
       run: make unit-test
@@ -37,6 +44,13 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+
     - name: Acceptance test
       working-directory: ./marketplace
       run: make acceptance-test
@@ -45,6 +59,13 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+
     - name: Contract test
       working-directory: ./marketplace
       run: make contract-test
