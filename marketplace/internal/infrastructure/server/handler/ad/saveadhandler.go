@@ -23,15 +23,21 @@ type JSONSaveAdResponse struct {
 	Id string `json:"id"`
 }
 
+type JSONSaveAdRequest struct {
+	Title       string  `json:"title" binding:"required"`
+	Description string  `json:"description" binding:"required"`
+	Price       float32 `json:"price" binding:"required"`
+}
+
 func (h SaveAdHandler) SaveAd() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		var req ad.SaveAdRequest
+		var req JSONSaveAdRequest
 		if err := ctx.BindJSON(&req); err != nil {
 			ctx.JSON(http.StatusBadRequest, err.Error())
 			return
 		}
 
-		if savedAd, err := h.saveAd.Execute(ctx, req); err != nil {
+		if savedAd, err := h.saveAd.Execute(ctx, h.mapJSONSaveAdToRequest(req)); err != nil {
 			switch {
 			case errors.Is(err, ErrAdIdBadFormat) ||
 				errors.Is(err, ErrTitleBadFormat) ||
@@ -52,5 +58,13 @@ func (h SaveAdHandler) SaveAd() gin.HandlerFunc {
 func (SaveAdHandler) mapSaveAdToJsonResponse(response ad.SaveAdResponse) JSONSaveAdResponse {
 	return JSONSaveAdResponse{
 		Id: response.Id,
+	}
+}
+
+func (SaveAdHandler) mapJSONSaveAdToRequest(request JSONSaveAdRequest) ad.SaveAdRequest {
+	return ad.SaveAdRequest{
+		Title:       request.Title,
+		Description: request.Description,
+		Price:       request.Price,
 	}
 }
