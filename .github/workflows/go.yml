@@ -25,13 +25,43 @@ jobs:
       working-directory: ./marketplace
       run: go build -v ./...
 
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+
     - name: Unit test
       working-directory: ./marketplace
       run: make unit-test
 
+  acceptance-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
+
     - name: Acceptance test
       working-directory: ./marketplace
       run: make acceptance-test
+
+  contract-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
 
     - name: Contract test
       working-directory: ./marketplace
