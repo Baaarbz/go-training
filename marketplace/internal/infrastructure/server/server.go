@@ -17,11 +17,11 @@ import (
 )
 
 type Server struct {
-	engine          *gin.Engine
-	httpAddr        string
-	shutdownTimeout time.Duration
+	Engine          *gin.Engine
+	HttpAddr        string
+	ShutdownTimeout time.Duration
 	// Dependencies
-	adConfiguration *configuration.AdConfiguration
+	AdConfiguration *configuration.AdConfiguration
 }
 
 func New(ctx context.Context, host string, port uint, shutdownTimeout time.Duration, adConfiguration *configuration.AdConfiguration) (context.Context, Server) {
@@ -30,10 +30,10 @@ func New(ctx context.Context, host string, port uint, shutdownTimeout time.Durat
 	engine.Use(recovery.Middleware(), logging.Middleware())
 
 	srv := Server{
-		engine:          engine,
-		httpAddr:        fmt.Sprintf("%s:%d", host, port),
-		shutdownTimeout: shutdownTimeout,
-		adConfiguration: adConfiguration,
+		Engine:          engine,
+		HttpAddr:        fmt.Sprintf("%s:%d", host, port),
+		ShutdownTimeout: shutdownTimeout,
+		AdConfiguration: adConfiguration,
 	}
 
 	srv.registerRoutes()
@@ -41,11 +41,11 @@ func New(ctx context.Context, host string, port uint, shutdownTimeout time.Durat
 }
 
 func (s *Server) Run(ctx context.Context) error {
-	log.Println("server running on", s.httpAddr)
+	log.Println("server running on", s.HttpAddr)
 
 	srv := &http.Server{
-		Addr:    s.httpAddr,
-		Handler: s.engine,
+		Addr:    s.HttpAddr,
+		Handler: s.Engine,
 	}
 
 	go func() {
@@ -54,18 +54,18 @@ func (s *Server) Run(ctx context.Context) error {
 		}
 	}()
 	<-ctx.Done()
-	ctxShutdown, cancel := context.WithTimeout(context.Background(), s.shutdownTimeout)
+	ctxShutdown, cancel := context.WithTimeout(context.Background(), s.ShutdownTimeout)
 	defer cancel()
 
 	return srv.Shutdown(ctxShutdown)
 }
 
 func (s *Server) registerRoutes() {
-	s.engine.GET("/health", health.APIStatus())
+	s.Engine.GET("/health", health.APIStatus())
 
-	saveAdHandler := ad.NewSaveAdHandler(s.adConfiguration)
-	getAdHandler := ad.NewGetAdHandler(s.adConfiguration)
-	adsGroup := s.engine.Group("api/v1/ads")
+	saveAdHandler := ad.NewSaveAdHandler(s.AdConfiguration)
+	getAdHandler := ad.NewGetAdHandler(s.AdConfiguration)
+	adsGroup := s.Engine.Group("api/v1/ads")
 	{
 		adsGroup.POST("", saveAdHandler.SaveAd())
 		adsGroup.GET("", getAdHandler.FindAllAds())
