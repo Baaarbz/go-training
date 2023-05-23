@@ -24,21 +24,21 @@ func (_m *SaveAd) EXPECT() *SaveAd_Expecter {
 }
 
 // Execute provides a mock function with given fields: ctx, request
-func (_m *SaveAd) Execute(ctx context.Context, request ad.SaveAdRequest) (ad.SaveAdResponse, error) {
+func (_m *SaveAd) Execute(ctx context.Context, request ad.SaveAdDtoRequest) (ad.SaveAdDtoResponse, error) {
 	ret := _m.Called(ctx, request)
 
-	var r0 ad.SaveAdResponse
+	var r0 ad.SaveAdDtoResponse
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, ad.SaveAdRequest) (ad.SaveAdResponse, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, ad.SaveAdDtoRequest) (ad.SaveAdDtoResponse, error)); ok {
 		return rf(ctx, request)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, ad.SaveAdRequest) ad.SaveAdResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, ad.SaveAdDtoRequest) ad.SaveAdDtoResponse); ok {
 		r0 = rf(ctx, request)
 	} else {
-		r0 = ret.Get(0).(ad.SaveAdResponse)
+		r0 = ret.Get(0).(ad.SaveAdDtoResponse)
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, ad.SaveAdRequest) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, ad.SaveAdDtoRequest) error); ok {
 		r1 = rf(ctx, request)
 	} else {
 		r1 = ret.Error(1)
@@ -54,24 +54,24 @@ type SaveAd_Execute_Call struct {
 
 // Execute is a helper method to define mock.On call
 //   - ctx context.Context
-//   - request ad.SaveAdRequest
+//   - request ad.SaveAdDtoRequest
 func (_e *SaveAd_Expecter) Execute(ctx interface{}, request interface{}) *SaveAd_Execute_Call {
 	return &SaveAd_Execute_Call{Call: _e.mock.On("Execute", ctx, request)}
 }
 
-func (_c *SaveAd_Execute_Call) Run(run func(ctx context.Context, request ad.SaveAdRequest)) *SaveAd_Execute_Call {
+func (_c *SaveAd_Execute_Call) Run(run func(ctx context.Context, request ad.SaveAdDtoRequest)) *SaveAd_Execute_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(context.Context), args[1].(ad.SaveAdRequest))
+		run(args[0].(context.Context), args[1].(ad.SaveAdDtoRequest))
 	})
 	return _c
 }
 
-func (_c *SaveAd_Execute_Call) Return(_a0 ad.SaveAdResponse, _a1 error) *SaveAd_Execute_Call {
+func (_c *SaveAd_Execute_Call) Return(_a0 ad.SaveAdDtoResponse, _a1 error) *SaveAd_Execute_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *SaveAd_Execute_Call) RunAndReturn(run func(context.Context, ad.SaveAdRequest) (ad.SaveAdResponse, error)) *SaveAd_Execute_Call {
+func (_c *SaveAd_Execute_Call) RunAndReturn(run func(context.Context, ad.SaveAdDtoRequest) (ad.SaveAdDtoResponse, error)) *SaveAd_Execute_Call {
 	_c.Call.Return(run)
 	return _c
 }

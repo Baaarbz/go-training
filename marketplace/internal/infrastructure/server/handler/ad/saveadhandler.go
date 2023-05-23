@@ -55,14 +55,14 @@ func (h SaveAdHandler) SaveAd() gin.HandlerFunc {
 	}
 }
 
-func (SaveAdHandler) mapSaveAdToJsonResponse(response ad.SaveAdResponse) JSONSaveAdResponse {
+func (SaveAdHandler) mapSaveAdToJsonResponse(response ad.SaveAdDtoResponse) JSONSaveAdResponse {
 	return JSONSaveAdResponse{
 		Id: response.Id,
 	}
 }
 
-func (SaveAdHandler) mapJSONSaveAdToRequest(request JSONSaveAdRequest) ad.SaveAdRequest {
-	return ad.SaveAdRequest{
+func (SaveAdHandler) mapJSONSaveAdToRequest(request JSONSaveAdRequest) ad.SaveAdDtoRequest {
+	return ad.SaveAdDtoRequest{
 		Title:       request.Title,
 		Description: request.Description,
 		Price:       request.Price,

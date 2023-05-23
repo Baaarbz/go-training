@@ -14,7 +14,7 @@ func TestSaveAd_Execute_Success(t *testing.T) {
 	ads := mocks.NewAdRepository(t)
 	service := NewSaveAd(ads)
 
-	requestAd := SaveAdRequest{
+	requestAd := SaveAdDtoRequest{
 		Title:       "Test save ad success",
 		Description: "Description to save successfully an ad",
 		Price:       99.99,
@@ -26,29 +26,29 @@ func TestSaveAd_Execute_Success(t *testing.T) {
 	gotAd, err := service.Execute(context.Background(), requestAd)
 
 	assert.Nil(t, err)
-	assert.Equal(t, SaveAdResponse{savedAd.GetId().String()}, gotAd)
+	assert.Equal(t, SaveAdDtoResponse{savedAd.GetId().String()}, gotAd)
 }
 
 func TestSaveAd_Execute_FailValidation(t *testing.T) {
 	ads := mocks.NewAdRepository(t)
 	type args struct {
-		request SaveAdRequest
+		request SaveAdDtoRequest
 	}
 	tests := []struct {
 		name    string
 		args    args
-		want    SaveAdResponse
+		want    SaveAdDtoResponse
 		wantErr bool
 	}{
-		{"wrong Title format", args{request: SaveAdRequest{Title: ":(", Description: "Description to pass the validation", Price: 0}}, SaveAdResponse{}, true},
-		{"wrong Title format", args{request: SaveAdRequest{Title: "Title to pass validation", Description: ":(", Price: 0}}, SaveAdResponse{}, true},
-		{"wrong Title format", args{request: SaveAdRequest{Title: "Title to pass validation", Description: "Description to pass the validation", Price: -20}}, SaveAdResponse{}, true},
+		{"wrong Title format", args{request: SaveAdDtoRequest{Title: ":(", Description: "Description to pass the validation", Price: 0}}, SaveAdDtoResponse{}, true},
+		{"wrong Title format", args{request: SaveAdDtoRequest{Title: "Title to pass validation", Description: ":(", Price: 0}}, SaveAdDtoResponse{}, true},
+		{"wrong Title format", args{request: SaveAdDtoRequest{Title: "Title to pass validation", Description: "Description to pass the validation", Price: -20}}, SaveAdDtoResponse{}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			service := saveAd{ads: ads}
 			gotSavedAd, err := service.Execute(context.Background(), tt.args.request)
-			assert.Equal(t, SaveAdResponse{}, gotSavedAd)
+			assert.Equal(t, SaveAdDtoResponse{}, gotSavedAd)
 			assert.Error(t, err)
 		})
 	}

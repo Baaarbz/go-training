@@ -23,5 +23,5 @@ func TestFindAllAds_Execute_GetListOfAds(t *testing.T) {
 
 	assert.True(t, len(gotAds) == 1)
 	assert.Nil(t, err)
-	assert.Equal(t, []GetAdsResponse{{anId.String()}}, gotAds)
+	assert.Equal(t, []GetAdsDto{{anId.String()}}, gotAds)
 }

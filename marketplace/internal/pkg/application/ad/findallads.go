@@ -7,7 +7,7 @@ import (
 )
 
 type FindAllAds interface {
-	Execute(ctx context.Context) ([]GetAdsResponse, error)
+	Execute(ctx context.Context) ([]GetAdsDto, error)
 }
 
 type findAllAds struct {
@@ -20,19 +20,19 @@ func NewFindAllAds(ads AdRepository) FindAllAds {
 	}
 }
 
-type GetAdsResponse struct {
+type GetAdsDto struct {
 	Id string
 }
 
-func (service findAllAds) Execute(ctx context.Context) ([]GetAdsResponse, error) {
+func (service findAllAds) Execute(ctx context.Context) ([]GetAdsDto, error) {
 	ads, err := service.ads.FindAllAds(ctx)
 	return service.mapToResponse(ads), err
 }
 
-func (findAllAds) mapToResponse(ads []Ad) []GetAdsResponse {
-	adsResponse := make([]GetAdsResponse, 0)
+func (findAllAds) mapToResponse(ads []Ad) []GetAdsDto {
+	adsResponse := make([]GetAdsDto, 0)
 	for _, ad := range ads {
-		adsResponse = append(adsResponse, GetAdsResponse{Id: ad.GetId().String()})
+		adsResponse = append(adsResponse, GetAdsDto{Id: ad.GetId().String()})
 	}
 	return adsResponse
 }

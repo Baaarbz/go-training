@@ -43,7 +43,7 @@ func (h GetAdHandler) FindAllAds() gin.HandlerFunc {
 	}
 }
 
-func (GetAdHandler) mapFindAllAdsToJSONResponse(allAdsResponse []ad.GetAdsResponse) []JSONFindAllAdsResponse {
+func (GetAdHandler) mapFindAllAdsToJSONResponse(allAdsResponse []ad.GetAdsDto) []JSONFindAllAdsResponse {
 	jsonResponse := make([]JSONFindAllAdsResponse, 0)
 	for _, response := range allAdsResponse {
 		jsonResponse = append(jsonResponse, JSONFindAllAdsResponse{Id: response.Id})
@@ -78,7 +78,7 @@ func (h GetAdHandler) FindAdById() gin.HandlerFunc {
 	}
 }
 
-func (GetAdHandler) mapFindAdByIdToJSONResponse(adByIdResponse ad.GetAdByIdResponse) JSONFindAdByIdResponse {
+func (GetAdHandler) mapFindAdByIdToJSONResponse(adByIdResponse ad.GetAdByIdDto) JSONFindAdByIdResponse {
 	return JSONFindAdByIdResponse{
 		Id:          adByIdResponse.Id,
 		Title:       adByIdResponse.Title,
