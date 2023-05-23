@@ -31,8 +31,8 @@ jobs:
 
     - name: Acceptance test
       working-directory: ./marketplace
-      run: make acceptance
+      run: make acceptance-test
 
     - name: Contract test
       working-directory: ./marketplace
-      run: make contract
+      run: make contract-test
