@@ -24,19 +24,19 @@ func (_m *FindAllAds) EXPECT() *FindAllAds_Expecter {
 }
 
 // Execute provides a mock function with given fields: ctx
-func (_m *FindAllAds) Execute(ctx context.Context) ([]ad.GetAdsResponse, error) {
+func (_m *FindAllAds) Execute(ctx context.Context) ([]ad.GetAdsDto, error) {
 	ret := _m.Called(ctx)
 
-	var r0 []ad.GetAdsResponse
+	var r0 []ad.GetAdsDto
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context) ([]ad.GetAdsResponse, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context) ([]ad.GetAdsDto, error)); ok {
 		return rf(ctx)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context) []ad.GetAdsResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context) []ad.GetAdsDto); ok {
 		r0 = rf(ctx)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]ad.GetAdsResponse)
+			r0 = ret.Get(0).([]ad.GetAdsDto)
 		}
 	}
 
@@ -67,12 +67,12 @@ func (_c *FindAllAds_Execute_Call) Run(run func(ctx context.Context)) *FindAllAd
 	return _c
 }
 
-func (_c *FindAllAds_Execute_Call) Return(_a0 []ad.GetAdsResponse, _a1 error) *FindAllAds_Execute_Call {
+func (_c *FindAllAds_Execute_Call) Return(_a0 []ad.GetAdsDto, _a1 error) *FindAllAds_Execute_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *FindAllAds_Execute_Call) RunAndReturn(run func(context.Context) ([]ad.GetAdsResponse, error)) *FindAllAds_Execute_Call {
+func (_c *FindAllAds_Execute_Call) RunAndReturn(run func(context.Context) ([]ad.GetAdsDto, error)) *FindAllAds_Execute_Call {
 	_c.Call.Return(run)
 	return _c
 }

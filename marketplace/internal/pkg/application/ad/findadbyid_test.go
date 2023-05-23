@@ -18,7 +18,7 @@ func TestFindAdById_Execute_FindAd(t *testing.T) {
 	anId, _ := NewId("574cc928-f4bd-11ed-ad0e-8a6a68a798d6")
 	ad := NewAd("Simple title", "Simple ad description for testing", 20)
 	ad.SetId(anId)
-	expectedResponse := GetAdByIdResponse{
+	expectedResponse := GetAdByIdDto{
 		Id:          anId.String(),
 		Title:       ad.Title.String(),
 		Description: ad.Description.String(),

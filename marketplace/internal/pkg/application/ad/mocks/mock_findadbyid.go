@@ -24,18 +24,18 @@ func (_m *FindAdById) EXPECT() *FindAdById_Expecter {
 }
 
 // Execute provides a mock function with given fields: ctx, id
-func (_m *FindAdById) Execute(ctx context.Context, id string) (ad.GetAdByIdResponse, error) {
+func (_m *FindAdById) Execute(ctx context.Context, id string) (ad.GetAdByIdDto, error) {
 	ret := _m.Called(ctx, id)
 
-	var r0 ad.GetAdByIdResponse
+	var r0 ad.GetAdByIdDto
 	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, string) (ad.GetAdByIdResponse, error)); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, string) (ad.GetAdByIdDto, error)); ok {
 		return rf(ctx, id)
 	}
-	if rf, ok := ret.Get(0).(func(context.Context, string) ad.GetAdByIdResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, string) ad.GetAdByIdDto); ok {
 		r0 = rf(ctx, id)
 	} else {
-		r0 = ret.Get(0).(ad.GetAdByIdResponse)
+		r0 = ret.Get(0).(ad.GetAdByIdDto)
 	}
 
 	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
@@ -66,12 +66,12 @@ func (_c *FindAdById_Execute_Call) Run(run func(ctx context.Context, id string))
 	return _c
 }
 
-func (_c *FindAdById_Execute_Call) Return(response ad.GetAdByIdResponse, err error) *FindAdById_Execute_Call {
+func (_c *FindAdById_Execute_Call) Return(response ad.GetAdByIdDto, err error) *FindAdById_Execute_Call {
 	_c.Call.Return(response, err)
 	return _c
 }
 
-func (_c *FindAdById_Execute_Call) RunAndReturn(run func(context.Context, string) (ad.GetAdByIdResponse, error)) *FindAdById_Execute_Call {
+func (_c *FindAdById_Execute_Call) RunAndReturn(run func(context.Context, string) (ad.GetAdByIdDto, error)) *FindAdById_Execute_Call {
 	_c.Call.Return(run)
 	return _c
 }

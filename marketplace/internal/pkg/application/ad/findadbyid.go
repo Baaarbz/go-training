@@ -8,7 +8,7 @@ import (
 )
 
 type FindAdById interface {
-	Execute(ctx context.Context, id string) (response GetAdByIdResponse, err error)
+	Execute(ctx context.Context, id string) (response GetAdByIdDto, err error)
 }
 type findAdById struct {
 	ads AdRepository
@@ -20,7 +20,7 @@ func NewFindAdById(ads AdRepository) FindAdById {
 	}
 }
 
-type GetAdByIdResponse struct {
+type GetAdByIdDto struct {
 	Id          string
 	Title       string
 	Description string
@@ -28,7 +28,7 @@ type GetAdByIdResponse struct {
 	Date        string
 }
 
-func (service findAdById) Execute(ctx context.Context, id string) (response GetAdByIdResponse, err error) {
+func (service findAdById) Execute(ctx context.Context, id string) (response GetAdByIdDto, err error) {
 	adId, err := valueobject.NewId(id)
 	if err != nil {
 		return
@@ -38,8 +38,8 @@ func (service findAdById) Execute(ctx context.Context, id string) (response GetA
 	return
 }
 
-func (findAdById) mapToResponse(ad Ad) GetAdByIdResponse {
-	return GetAdByIdResponse{
+func (findAdById) mapToResponse(ad Ad) GetAdByIdDto {
+	return GetAdByIdDto{
 		Id:          ad.GetId().String(),
 		Title:       ad.Title.String(),
 		Description: ad.Description.String(),

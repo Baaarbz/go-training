@@ -8,7 +8,7 @@ import (
 )
 
 type SaveAd interface {
-	Execute(ctx context.Context, request SaveAdRequest) (SaveAdResponse, error)
+	Execute(ctx context.Context, request SaveAdDtoRequest) (SaveAdDtoResponse, error)
 }
 
 type saveAd struct {
@@ -21,27 +21,27 @@ func NewSaveAd(ads AdRepository) SaveAd {
 	}
 }
 
-type SaveAdResponse struct {
+type SaveAdDtoResponse struct {
 	Id string
 }
 
-type SaveAdRequest struct {
+type SaveAdDtoRequest struct {
 	Title       string
 	Description string
 	Price       float32
 }
 
-func (service saveAd) Execute(ctx context.Context, request SaveAdRequest) (SaveAdResponse, error) {
+func (service saveAd) Execute(ctx context.Context, request SaveAdDtoRequest) (SaveAdDtoResponse, error) {
 	if title, description, price, err := service.getFieldsAds(request); err != nil {
-		return SaveAdResponse{}, err
+		return SaveAdDtoResponse{}, err
 	} else {
 		ad := NewAd(title, description, price)
 		ad, err = service.ads.SaveAd(ctx, ad)
-		return SaveAdResponse{Id: ad.GetId().String()}, err
+		return SaveAdDtoResponse{Id: ad.GetId().String()}, err
 	}
 }
 
-func (saveAd) getFieldsAds(request SaveAdRequest) (title Title, description Description, price Price, err error) {
+func (saveAd) getFieldsAds(request SaveAdDtoRequest) (title Title, description Description, price Price, err error) {
 	title, err = NewTitle(request.Title)
 	if err != nil {
 		return "", "", 0, err
