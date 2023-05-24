@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  test-and-build:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -18,26 +18,48 @@ jobs:
       with:
         go-version: 1.19
 
-    - name: Install mockery
-      working-directory: ./marketplace
-      run: go get github.com/vektra/mockery/.../
-
     - name: Build
       working-directory: ./marketplace
       run: go build -v ./...
 
-    - name: Generate mocks
-      working-directory: ./marketplace
-      run: go generate ./...
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
 
     - name: Unit test
       working-directory: ./marketplace
-      run: make unit-test
+      run: make -d unit-test
+
+  acceptance-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
 
     - name: Acceptance test
       working-directory: ./marketplace
-      run: make acceptance-test
+      run: make -d  acceptance-test
+
+  contract-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19
 
     - name: Contract test
       working-directory: ./marketplace
-      run: make contract-test
+      run: make -d contract-test
