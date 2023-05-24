@@ -32,9 +32,13 @@ jobs:
       with:
         go-version: 1.19
 
+    - name: Install mockery
+      working-directory: ./marketplace
+      run: go install github.com/vektra/mockery/v2@v2.20.0
+
     - name: Unit test
       working-directory: ./marketplace
-      run: make -d unit-test
+      run: make unit-test
 
   acceptance-tests:
     runs-on: ubuntu-latest
@@ -46,9 +50,13 @@ jobs:
       with:
         go-version: 1.19
 
+    - name: Install mockery
+      working-directory: ./marketplace
+      run: go install github.com/vektra/mockery/v2@v2.20.0
+
     - name: Acceptance test
       working-directory: ./marketplace
-      run: make -d  acceptance-test
+      run: make acceptance-test
 
   contract-tests:
     runs-on: ubuntu-latest
@@ -66,4 +74,4 @@ jobs:
 
     - name: Contract test
       working-directory: ./marketplace
-      run: make -d contract-test
+      run: make contract-test
