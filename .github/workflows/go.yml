@@ -32,7 +32,7 @@ jobs:
 
     - name: Unit test
       working-directory: ./marketplace
-      run: make -d unit-test
+      run: make unit-test
 
     - name: Acceptance test
       working-directory: ./marketplace
